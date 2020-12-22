@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using DalSoft.RestClient.DependencyInjection;
+using cleverit.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 namespace cleverit
 {
     public class Startup
@@ -16,7 +19,6 @@ namespace cleverit
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Console.WriteLine("asdf");
         }
 
         public IConfiguration Configuration { get; }
@@ -25,6 +27,10 @@ namespace cleverit
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddRestClient("http://arsene.azurewebsites.net")
+                .SetJsonSerializerSettings(new JsonSerializerSettings { ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() } });
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
