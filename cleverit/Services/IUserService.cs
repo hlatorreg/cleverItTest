@@ -18,5 +18,7 @@ namespace cleverit.Services
         Task<bool> UpdateUser(string id, User user);
         Task<bool> DeleteUser(string id);
         Task<bool> AddUser(User user);
+        Task<UserData> GetUserAuth(string username, string password);
+        Task<UserData> GerUserAuthById(int id);
     }
 }

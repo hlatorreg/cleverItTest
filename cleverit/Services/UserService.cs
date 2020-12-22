@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,40 @@ namespace cleverit.Services
             var response = await restClient.User.Post(user);
 
             return (int)response.HttpResponseMessage.StatusCode == 201;
+        }
+
+        [Route("UserData"), HttpGet]
+        public async Task<UserData> GetUserAuth(string username, string password)
+        {
+            dynamic restClient = _restClientFactory.CreateClient();
+            
+            var result = await restClient.UserData.Query(new {username = username, password = password}).Get();
+
+            UserData ud = new UserData();
+
+            foreach (var user in result)
+            {
+                ud = JsonConvert.DeserializeObject<UserData>(user.ToString());
+            }
+
+            return ud;
+        }
+
+        [Route("UserData"), HttpGet]
+        public async Task<UserData> GerUserAuthById(int id)
+        {
+            dynamic restClient = _restClientFactory.CreateClient();
+            
+            var result = await restClient.UserData.Query(new {id = id}).Get();
+
+            UserData ud = new UserData();
+
+            foreach (var user in result)
+            {
+                ud = JsonConvert.DeserializeObject<UserData>(user.ToString());
+            }
+
+            return ud;
         }
     }
 }
