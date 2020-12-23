@@ -1,0 +1,152 @@
+﻿@page
+@model IndexModel
+
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<div class="container">
+    <button type="button" class="btn btn-primary" id="listUsers">Reload Users</button>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#form">Add User</button>
+</div>
+<br>
+<div id="mainTable">
+
+</div>
+
+<div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="exampleModalLabel">Create User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form onsubmit="updateTable(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="id1">Id</label>
+                        <input type="text" class="form-control" id="id1" placeholder="Id">
+                        <small id="idHelp" class="form-text text-muted">Random ID will be generated if no ID is
+                            provided.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre1">Nombre</label>
+                        <input type="text" class="form-control" id="nombre1" placeholder="Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="name1">Name</label>
+                        <input type="text" class="form-control" id="name1" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido1">Apellido</label>
+                        <input type="text" class="form-control" id="apellido1" placeholder="Apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname1">Lastname</label>
+                        <input type="text" class="form-control" id="lastname1" placeholder="Lastname">
+                    </div>
+                    <div class="form-group">
+                        <label for="profesion1">Profesión</label>
+                        <input type="text" class="form-control" id="profesion1" placeholder="Profesión">
+                    </div>
+                    <div class="form-group">
+                        <label for="email1">Email</label>
+                        <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
+                            placeholder="Enter email">
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                    <button class="btn btn-success" id="addRow">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteIcon = function (cell, formatterParams, onRendered) {
+        return "<i class='fas fa-trash-alt'></i>";
+    };
+    axios.defaults.headers.common['Authorization'] = 'Bearer @ViewData["token"]';
+    const table = new Tabulator("#mainTable", {
+        layout: "fitColumns",
+        placeholder: "No Data Set",
+        ajaxURL: '/users/list',
+        ajaxConfig: {
+            method: "GET",
+            headers: {
+                "Authorization": 'Bearer @ViewData["token"]'
+            },
+        },
+        ajaxError: function (error) {
+            alertify.alert(error.status.toString() + ' Unauthorized').set('frameless', true);
+        },
+        cellEdited: function (cell) {
+            let rowData = cell.getRow().getData();
+            axios.put("/users/update?id=" + rowData.id, {
+                nombre: rowData.nombre,
+                name: rowData.name,
+                apellido: rowData.apellido,
+                lastname: rowData.lastname,
+                profesion: rowData.profesion,
+                email: rowData.email
+            }).then(function (response) {
+                table.setData();
+            }).catch(function (error) {
+                alertify.alert(error.response.status.toString()  + ' Unauthorized').set('frameless', true);
+            });
+        },
+        columns: [
+            { title: "Id", field: "id", sorter: "string" },
+            { title: "Nombre", field: "nombre", sorter: "string", editor: "input" },
+            { title: "Name", field: "name", sorter: "string", editor: "input" },
+            { title: "Apellido", field: "apellido", sorter: "string", editor: "input" },
+            { title: "Lastname", field: "lastname", sorter: "string", editor: "input" },
+            { title: "Profesión", field: "profesion", sorter: "string", editor: "input" },
+            { title: "Email", field: "email", sorter: "string", editor: "input" },
+            {
+                formatter: deleteIcon, width: 70, hozAlign: "center", cellClick: function (e, cell) {
+                    axios.delete("/users/delete?id=" + cell.getRow().getData().id)
+                        .then(function (response) {
+                            table.setData();
+                        })
+                        .catch(function (error) {
+                            alertify.alert(error.response.status.toString() + ' Unauthorized').set('frameless', true);
+                        });
+                }
+            },
+        ],
+    });
+
+    document.getElementById("listUsers").addEventListener("click", function () {
+        table.setData();
+    });
+
+    function updateTable(event) {
+        event.preventDefault();
+        let data = {
+            id: event.target.elements.id1.value,
+            nombre: event.target.elements.nombre1.value,
+            name: event.target.elements.name1.value,
+            apellido: event.target.elements.apellido1.value,
+            lastname: event.target.elements.lastname1.value,
+            profesion: event.target.elements.profesion1.value,
+            email: event.target.elements.email1.value
+        };
+        axios.post("/users/create", data)
+            .then(function (response) {
+                table.setData();
+                console.log("jere");
+                return false;
+            })
+            .catch(function (error) {
+                alertify.alert(error.response.status.toString()  + ' Unauthorized').set('frameless', true);
+                console.log("jere");
+                return false;
+            });
+        $("#form").modal('hide');
+    }
+
+</script>
