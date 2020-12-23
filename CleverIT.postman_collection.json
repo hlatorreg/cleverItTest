@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "59b15326-08e8-4b8e-8f0c-4b73844d0ca3",
+		"name": "CleverIT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "internal user list",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MDg2NjU4MzYsImV4cCI6MTYwOTI3MDYzNiwiaWF0IjoxNjA4NjY1ODM2fQ.lgf32KuS_3FKZ74Qe6wy6qQ7hXZr7VA9lYgKHgb8A-8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/usersinternal/list",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"usersinternal",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "internal user find",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MDg2NjU4MzYsImV4cCI6MTYwOTI3MDYzNiwiaWF0IjoxNjA4NjY1ODM2fQ.lgf32KuS_3FKZ74Qe6wy6qQ7hXZr7VA9lYgKHgb8A-8"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:5001/usersinternal/find?id=testo",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"usersinternal",
+						"find"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "testo"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "internal user create",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MDg2NjU4MzYsImV4cCI6MTYwOTI3MDYzNiwiaWF0IjoxNjA4NjY1ODM2fQ.lgf32KuS_3FKZ74Qe6wy6qQ7hXZr7VA9lYgKHgb8A-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"testo2\",\r\n    \"nombre\": \"asdfasdas\",\r\n    \"name\": \"a\",\r\n    \"apellido\": \"a\",\r\n    \"lastname\": \"a\",\r\n    \"profesion\": \"a a\",\r\n    \"email\": \"a@a.cl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/usersinternal/create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"usersinternal",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "internal user update",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MDg2NjU4MzYsImV4cCI6MTYwOTI3MDYzNiwiaWF0IjoxNjA4NjY1ODM2fQ.lgf32KuS_3FKZ74Qe6wy6qQ7hXZr7VA9lYgKHgb8A-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"asdfasdas\",\r\n    \"name\": \"bbbbb\",\r\n    \"apellido\": \"a\",\r\n    \"lastname\": \"a\",\r\n    \"profesion\": \"a a\",\r\n    \"email\": \"a@a.cl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/usersinternal/update?id=testo2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"usersinternal",
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "testo2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "internal user delete",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJuYmYiOjE2MDg2NjU4MzYsImV4cCI6MTYwOTI3MDYzNiwiaWF0IjoxNjA4NjY1ODM2fQ.lgf32KuS_3FKZ74Qe6wy6qQ7hXZr7VA9lYgKHgb8A-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"asdfasdas\",\r\n    \"name\": \"bbbbb\",\r\n    \"apellido\": \"a\",\r\n    \"lastname\": \"a\",\r\n    \"profesion\": \"a a\",\r\n    \"email\": \"a@a.cl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/usersinternal/update?id=testo2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"usersinternal",
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "testo2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "internal authenticate",
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"ACME\",\r\n    \"password\": \"12345sdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
