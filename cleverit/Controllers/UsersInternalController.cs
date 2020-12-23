@@ -7,10 +7,10 @@ namespace cleverit.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersInternalController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private IUserService _userService;
-        public UsersInternalController(IUserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
@@ -28,6 +28,8 @@ namespace cleverit.Controllers
         public async Task<IActionResult> Find(string id)
         {
             var results = await _userService.Users(id);
+            if (string.IsNullOrWhiteSpace(results.Id))
+                return NotFound();
             return Ok(results);
         }
 
@@ -41,7 +43,7 @@ namespace cleverit.Controllers
         }
 
         [Authorize]
-        [HttpPost("update")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(User model, string id)
         {
             var results = await _userService.UpdateUser(id, model);
@@ -50,7 +52,7 @@ namespace cleverit.Controllers
         }
 
         [Authorize]
-        [HttpPost("delete")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> Delete(string id)
         {
             var results = await _userService.DeleteUser(id);

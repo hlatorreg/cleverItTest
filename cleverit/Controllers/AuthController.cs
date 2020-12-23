@@ -30,6 +30,10 @@ namespace cleverit.Controllers
         public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {
             UserData userData = await _userService.GetUserAuth(model.Username, model.Password);
+            if (string.IsNullOrWhiteSpace(userData.Password))
+            {
+                return NotFound();
+            }
             var token = generateJwtToken(userData);
             var response = new AuthenticateResponse(token);
             return Ok(response);
@@ -37,7 +41,6 @@ namespace cleverit.Controllers
 
         private string generateJwtToken(UserData user)
         {
-            Console.WriteLine(_appSettings.Secret);
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor

@@ -33,7 +33,6 @@ namespace cleverit.Helpers
 
         private async Task attachUserToContext(HttpContext context, IUserService userService, string token)
         {
-            Console.WriteLine("here");
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -44,13 +43,11 @@ namespace cleverit.Helpers
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-                Console.WriteLine(userId);
 
                 // attach user to context on successful jwt validation
                 context.Items["UserData"] = await userService.GerUserAuthById(userId);

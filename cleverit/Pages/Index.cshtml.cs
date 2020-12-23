@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using cleverit.Services;
 using cleverit.Models;
+using System.Net;
+
 namespace cleverit.Pages
 {
     public class IndexModel : PageModel
@@ -21,11 +23,13 @@ namespace cleverit.Pages
             userService = user;
         }
 
-        public async Task OnGet()
+        public async Task OnGet(string token)
         {
+            ViewData["token"] = token;
             var users = await userService.Users();
             userList = users;
             ViewData["users"] = users;
         }
+
     }
 }
